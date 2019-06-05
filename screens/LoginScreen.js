@@ -6,7 +6,7 @@ import { Spinner } from 'native-base';
 
 import * as firebase from 'firebase';
 
-import {getStatusBarHeight} from 'react-native-status-bar-height';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { Container, Form, Input, Item, Button, Label } from 'native-base';
 
@@ -22,7 +22,7 @@ class LoginScreen extends Component {
   }
 
   componentWillMount() {
-    this.setState({isLoading:false});
+    this.setState({ isLoading: false });
   }
 
   logInUser = (email, password) => {
@@ -30,18 +30,18 @@ class LoginScreen extends Component {
     try {
       if (this.state.password.length === 0 || this.state.email.length === 0) {
         alert("Please fill all fields.");
-        this.setState({isLoading:false});
+        this.setState({ isLoading: false });
         return;
       }
       firebase.auth().signInWithEmailAndPassword(email, password).then(function (result) {
         console.log(result);
         firebase
-                .database()
-                .ref('/users/' + result.user.uid).update({
-                  lastLoggedIn: Date.now()
-                });
+          .database()
+          .ref('/users/' + result.user.uid).update({
+            lastLoggedIn: Date.now()
+          });
         console.log('user signed in');
-      }.bind(this)).catch(error => { this.setState({ isLoading : false }); alert(error); });
+      }.bind(this)).catch(error => { this.setState({ isLoading: false }); alert(error); });
     }
     catch (error) {
       this.setState({ isLoading: false });
@@ -122,7 +122,7 @@ class LoginScreen extends Component {
   }
 
   signInWithgoogleAsync = async () => {
-    this.setState({isLoading:true});
+    this.setState({ isLoading: true });
     try {
       const result = await Expo.Google.logInAsync({
         behavior: 'web',
@@ -133,16 +133,16 @@ class LoginScreen extends Component {
       });
       if (result.type === 'success') {
         this.onSignIn(result);
-        this.setState({isLoading:false});
+        this.setState({ isLoading: false });
         return result.accessToken;
       }
       else {
-        this.setState({isLoading:false});
+        this.setState({ isLoading: false });
         return { cancelled: true };
       }
     }
     catch (e) {
-      this.setState({isLoading:false});
+      this.setState({ isLoading: false });
       return { error: true };
     }
   }
@@ -156,42 +156,42 @@ class LoginScreen extends Component {
       );
     }
     else {
-    return (
-      <Container style={styles.containerNative} androidStatusBarColor='black'>
-        <Form>
-          <Item floatingLabel>
-            <Label>Email</Label>
-            <Input
-                autoCorrect={false}
-                autoCapitalize="none"
-                onChangeText={(email) => this.setState({ email })}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Password</Label>
-            <Input
-                secureTextEntry
-                autoCorrect={false}
-                autoCapitalize="none"
-                onChangeText={(password) => this.setState({ password })}
-            />
-          </Item>
-          <Button full rounded bordered dark style={{ marginTop: 30 }} onPress={() => this.logInUser(this.state.email, this.state.password)}>
-            <Text style={{ color: 'black' }}>Log In</Text>
-          </Button>
-          <Button full rounded bordered dark style={{ marginTop: 10 }} onPress={() => this.props.navigation.navigate('RegisterScreen')}>
-            <Text style={{ color: 'black' }}>Register From Here</Text>
-          </Button>
-          <Divider orientation='center' color='#707070'>OR</Divider>
-          <Button full rounded dark onPress={() => this.signInWithgoogleAsync()}>
-            <Text style={{ color: 'white' }}>Sign In With Google</Text>
-          </Button>
-        </Form>
-        <View style={styles.bottom}>
-          <Text style={{textDecorationLine:'underline'}} onPress={() => Linking.openURL('https://www.linkedin.com/in/omargobran/')}>{'\u00A9'} Made by Omar Gobran</Text>
-        </View>
-      </Container>
-    );
+      return (
+        <Container style={styles.containerNative} androidStatusBarColor='black'>
+          <Form>
+            <Item floatingLabel>
+              <Label>Email</Label>
+              <Input
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  onChangeText={(email) => this.setState({ email })}
+              />
+            </Item>
+            <Item floatingLabel>
+              <Label>Password</Label>
+              <Input
+                  secureTextEntry
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  onChangeText={(password) => this.setState({ password })}
+              />
+            </Item>
+            <Button full rounded bordered dark style={{ marginTop: 30 }} onPress={() => this.logInUser(this.state.email, this.state.password)}>
+              <Text style={{ color: 'black' }}>Log In</Text>
+            </Button>
+            <Button full rounded bordered dark style={{ marginTop: 10 }} onPress={() => this.props.navigation.navigate('RegisterScreen')}>
+              <Text style={{ color: 'black' }}>Register From Here</Text>
+            </Button>
+            <Divider orientation='center' color='#707070'>OR</Divider>
+            <Button full rounded dark onPress={() => this.signInWithgoogleAsync()}>
+              <Text style={{ color: 'white' }}>Sign In With Google</Text>
+            </Button>
+          </Form>
+          <View style={styles.bottom}>
+            <Text style={{ textDecorationLine: 'underline' }} onPress={() => Linking.openURL('https://www.linkedin.com/in/omargobran/')}>{'\u00A9'} Made by Omar Gobran</Text>
+          </View>
+        </Container>
+      );
     }
   }
 }

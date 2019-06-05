@@ -7,7 +7,7 @@ import { Spinner } from 'native-base';
 
 import * as firebase from 'firebase';
 
-import {getStatusBarHeight} from 'react-native-status-bar-height';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { Container, Form, Input, Item, Button, Label } from 'native-base';
 
@@ -25,7 +25,7 @@ class RegisterScreen extends Component {
   }
 
   componentWillMount() {
-    this.setState({isLoading:false});
+    this.setState({ isLoading: false });
   }
 
   signUpUser = (email, password) => {
@@ -45,21 +45,21 @@ class RegisterScreen extends Component {
       firebase.auth().createUserWithEmailAndPassword(email, password).catch(error => { alert(error); this.setState({ isLoading: false }); })
         .then(function (result) {
           console.log(result);
-          if(typeof result.user !== "undefined") {
-          firebase
-            .database()
-            .ref('/users/' + result.user.uid)
-            .set({
-              email: result.user.email,
-              profilePic: result.user.photoURL,
-              locale: 'en',
-              firstName: this.state.firstName,
-              lastName: this.state.lastName,
-              createdAt: Date.now()
-            })
-            .then(function (snapshot) {
-              //console.log('Snapshot', snapshot);
-            });
+          if (typeof result.user !== "undefined") {
+            firebase
+              .database()
+              .ref('/users/' + result.user.uid)
+              .set({
+                email: result.user.email,
+                profilePic: result.user.photoURL,
+                locale: 'en',
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                createdAt: Date.now()
+              })
+              .then(function (snapshot) {
+                //console.log('Snapshot', snapshot);
+              });
           }
           this.setState({ isLoading: false });
         }.bind(this));
@@ -170,66 +170,66 @@ class RegisterScreen extends Component {
 
   render() {
     if (this.state.isLoading) {
-        return (
-          <Container style={styles.container}>
-            <Spinner color='black' />
-          </Container>
-        );
-      }
-      else{
-    return (
-      <Container style={styles.containerNative} androidStatusBarColor='black'>
-        <Form>
-          <Item floatingLabel>
-            <Label>First Name</Label>
-            <Input
-                autoCorrect={false}
-                autoCapitalize="words"
-                onChangeText={(firstName) => this.state.firstName = firstName}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Last Name</Label>
-            <Input
-                autoCorrect={false}
-                autoCapitalize="words"
-                onChangeText={(lastName) => this.state.lastName = lastName}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Email</Label>
-            <Input
-                autoCorrect={false}
-                autoCapitalize="none"
-                onChangeText={(email) => this.setState({ email })}
-            />
-          </Item>
-          <Item floatingLabel>
-            <Label>Password</Label>
-            <Input
-                secureTextEntry
-                autoCorrect={false}
-                autoCapitalize="none"
-                onChangeText={(password) => this.setState({ password })}
-            />
-          </Item>
-          <Button full rounded bordered dark style={{ marginTop: 30 }} onPress={() => this.signUpUser(this.state.email, this.state.password)}>
-            <Text style={{ color: 'black' }}>Sign Up</Text>
-          </Button>
-          <Button full rounded bordered dark style={{ marginTop: 10 }} onPress={() => this.props.navigation.navigate('LoginScreen')}>
-            <Text style={{ color: 'black' }}>Log In From Here</Text>
-          </Button>
-          <Divider orientation='center' color='#707070'>OR</Divider>
-          <Button full rounded dark onPress={() => this.signInWithgoogleAsync()}>
-            <Text style={{ color: 'white' }}>Sign Up With Google</Text>
-          </Button>
-        </Form>
-        <View style={styles.bottom}>
-          <Text style={{textDecorationLine:'underline'}} onPress={() => Linking.openURL('https://www.linkedin.com/in/omargobran/')}>{'\u00A9'} Made by Omar Gobran</Text>
-        </View>
-      </Container>
-    );
-      }
+      return (
+        <Container style={styles.container}>
+          <Spinner color='black' />
+        </Container>
+      );
+    }
+    else {
+      return (
+        <Container style={styles.containerNative} androidStatusBarColor='black'>
+          <Form>
+            <Item floatingLabel>
+              <Label>First Name</Label>
+              <Input
+                  autoCorrect={false}
+                  autoCapitalize="words"
+                  onChangeText={(firstName) => this.state.firstName = firstName}
+              />
+            </Item>
+            <Item floatingLabel>
+              <Label>Last Name</Label>
+              <Input
+                  autoCorrect={false}
+                  autoCapitalize="words"
+                  onChangeText={(lastName) => this.state.lastName = lastName}
+              />
+            </Item>
+            <Item floatingLabel>
+              <Label>Email</Label>
+              <Input
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  onChangeText={(email) => this.setState({ email })}
+              />
+            </Item>
+            <Item floatingLabel>
+              <Label>Password</Label>
+              <Input
+                  secureTextEntry
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  onChangeText={(password) => this.setState({ password })}
+              />
+            </Item>
+            <Button full rounded bordered dark style={{ marginTop: 30 }} onPress={() => this.signUpUser(this.state.email, this.state.password)}>
+              <Text style={{ color: 'black' }}>Sign Up</Text>
+            </Button>
+            <Button full rounded bordered dark style={{ marginTop: 10 }} onPress={() => this.props.navigation.navigate('LoginScreen')}>
+              <Text style={{ color: 'black' }}>Log In From Here</Text>
+            </Button>
+            <Divider orientation='center' color='#707070'>OR</Divider>
+            <Button full rounded dark onPress={() => this.signInWithgoogleAsync()}>
+              <Text style={{ color: 'white' }}>Sign Up With Google</Text>
+            </Button>
+          </Form>
+          <View style={styles.bottom}>
+            <Text style={{ textDecorationLine: 'underline' }} onPress={() => Linking.openURL('https://www.linkedin.com/in/omargobran/')}>{'\u00A9'} Made by Omar Gobran</Text>
+          </View>
+        </Container>
+      );
+    }
   }
 }
 

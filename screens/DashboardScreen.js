@@ -178,14 +178,14 @@ class DashboardScreen extends Component {
                       </TouchableOpacity>)
                   }
                 />
-              
-              <Footer>
-                <FooterTab>
-                  <Button full dark onPress={() => firebase.auth().signOut()}>
-                    <Text style={{ color: 'white' }}>Sign Out</Text>
-                  </Button>
-                </FooterTab>
-              </Footer>
+
+                <Footer>
+                  <FooterTab>
+                    <Button full dark onPress={() => firebase.auth().signOut()}>
+                      <Text style={{ color: 'white' }}>Sign Out</Text>
+                    </Button>
+                  </FooterTab>
+                </Footer>
               </Form>
             </Content>
           </ScrollView>

@@ -8,17 +8,16 @@ import * as firebase from 'firebase';
 
 class LoadingScreen extends Component {
 
-  componentDidMount(){
+  componentDidMount() {
     this.checkIfLoggedIn();
   }
 
   checkIfLoggedIn = () => {
     firebase.auth().onAuthStateChanged(user => {
-      if(user){
+      if (user) {
         this.props.navigation.navigate('DashboardScreen');
       }
-      else
-      {
+      else {
         this.props.navigation.navigate('LoginScreen');
       }
     });
@@ -27,7 +26,7 @@ class LoadingScreen extends Component {
   render() {
     return (
       <Container style={styles.container} androidStatusBarColor='black'>
-          <Spinner color='black' />
+        <Spinner color='black' />
       </Container>
     );
   }
